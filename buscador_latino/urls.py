@@ -1,15 +1,13 @@
 from django.urls import path
 from rest_framework import routers
-from .views import  SearchViewSet,WikipediaSearchView
+from .views import SearchViewSet, WikipediaSearchView, SearchResultsView
 
 router = routers.DefaultRouter()
-
-router.register(prefix='search', basename="search", viewset=SearchViewSet)
-
+router.register(r'searches', SearchViewSet)
 
 urlpatterns = [
-    path('wikipedia/search/', WikipediaSearchView.as_view(), name='wikipedia_search'),
-   
-
+    path('', WikipediaSearchView.as_view(), name='wikipedia_search'),
+    path('search/', SearchResultsView.as_view(), name='search_results'),
 ]
+
 urlpatterns += router.urls

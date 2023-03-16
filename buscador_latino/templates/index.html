@@ -1,25 +1,38 @@
-
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Búsqueda en Wikipedia</title>
+    <title>Wikipedia Search</title>
 </head>
 <body>
-	<header>
-		<h1>Búsqueda en Wikipedia</h1>
-	</header>
-	
-	<main>
-		<form action="{% url 'wikipedia_search' %}" method="get">
-			<label for="search">Búsqueda:</label>
-			<input type="text" id="search" name="search">
-			<button type="submit">Buscar</button>
-		</form>
-		
-		{% if title %}
-		<h2>{{ title }}</h2>
-		<p>{{summary}}</p>
-		{% endif %}
-	</main>
+    <h1>Wikipedia Search</h1>
+    <form method="get" action="{% url 'wikipedia_search' %}">
+        <label for="search">Search Query:</label>
+        <input type="text" name="search" id="search">
+        <button type="submit">Search</button>
+    </form>
+    <br>
+    <form method="get" action="{% url 'search_results' %}">
+        <label for="info_search">Search Query:</label>
+        <input type="text" name="info_search" id="info_search">
+        <button type="submit">Get Search Results</button>
+    </form>
+
+    {% if title and summary %}
+        <h2>Search Results for "{{ search_query }}"</h2>
+        <h3>Title:</h3>
+        <p>{{ title }}</p>
+        <h3>Summary:</h3>
+        <p>{{ summary }}</p>
+    {% endif %}
+
+	{% if num_searches %}
+		<h2>Search Results for "{{ search_text }}"</h2>
+		<h3>Number of Searches:</h3>
+		<p>{{ num_searches }}</p>
+		<h3>First Search:</h3>
+		<p>{{ first_search.search_query }} at {{ first_search.published_at }}</p>
+		<h3>Last Search:</h3>
+		<p>{{ last_search.search_query }} at {{ last_search.published_at }}</p>
+	{% endif %}
 </body>
 </html>

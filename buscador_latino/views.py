@@ -4,32 +4,27 @@ from rest_framework import viewsets, permissions
 from .serializers import SearchSerializer
 from .models import Search
 from rest_framework.views import APIView
-from django.views import View
 from rest_framework.response import Response
 from rest_framework.renderers import TemplateHTMLRenderer
-from datetime import date,datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 from django.views.generic import TemplateView
-#from db.database import db_colection
-# import wikipedia as wiki
 import wikipediaapi
-import wikipedia
 
-# Create your views here.
 from pymongo import MongoClient
 
 client = MongoClient('mongodb+srv://mirestrepot:Y34589ok.@twitterapi.tixzlnu.mongodb.net/?retryWrites=true&w=majority')
 db = client['prueba-tecnica']
-db_colection = db['buscador_latino_search']
-
+db_collection = db['buscador_latino_search']
 
 
 class SearchViewSet(viewsets.ModelViewSet):
     queryset = Search.objects.all()
     permission_classes = (permissions.AllowAny,)
     serializer_class = SearchSerializer
+    template_name = 'index.html'
+    context_object_name = 'search_view'
 
 
-    
 class WikipediaSearchView(APIView):
     """Search in wikipedia
 
@@ -41,6 +36,7 @@ class WikipediaSearchView(APIView):
     """
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'index.html'
+
     def get(self, request):
         search_query = request.GET.get('search')
         wiki = wikipediaapi.Wikipedia('en')
@@ -56,50 +52,29 @@ class WikipediaSearchView(APIView):
             )
             search_result.save()
             context = {
-                'search_text': search_query, 
-                'title': page.title, 
+                'search_query': search_query,
+                'title': page.title,
                 'summary': page.summary,
             }
-        
+
             return Response(context)
 
-        
-    def get(self, request):
-        search_query = request.GET.get('info_search')
-        search_text = search_query
-        search_results = Search.objects.filter(search_query=search_query)
-        num_searches = search_results.count()
-        first_search = search_results.order_by('published_at').first()
-        last_search = search_results.order_by('-published_at').first()
-        #last_week_searches = search_results.filter(published_now=datetime.now() - timedelta(days=7)).count()
-        context = {
-            'search_text': search_text,
-            'num_searches': num_searches,
-            'first_search': first_search,
-            'last_search': last_search,
-            }
-        #'last_week_searches': last_week_searches,
-        return Response(context)
-    
+class SearchResultsView(TemplateView):
+    template_name = 'index.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        search_text = self.request.GET.get('info_search')
+        if search_text:
+            searches = Search.objects.filter(search_query=search_text)
+            num_searches = searches.count()
+            if num_searches > 0:
+                first_search = searches.first()
+                last_search = searches.last()
+                context['num_searches'] = num_searches
+                context['first_search'] = first_search
+                context['last_search'] = last_search
+                context['search_text'] = search_text
+        return context
 
-
-
-
-# def get_info_search(search_query):
-    
-
-#     search_text = search_query
-#     search_results = Search.objects.filter(search_query=search_query)
-#     num_searches = search_results.count()
-#     first_search = search_results.order_by('published_at').first()
-#     last_search = search_results.order_by('-published_at').first()
-#     #last_week_searches = search_results.filter(published_now=datetime.now() - timedelta(days=7)).count()
-#     context = {
-#         'search_text': search_text,
-#         'num_searches': num_searches,
-#         'first_search': first_search,
-#         'last_search': last_search,
-#         #'last_week_searches': last_week_searches,
-#     }
 
