@@ -11,10 +11,13 @@ class Search(models.Model):
 
     def __str__(self):
         return self.search_query
-
-class InfoSearch(models.Model):
-    search_query = models.CharField(max_length=200)
-    num_searches = models.ImageField()
-    first_search = models.DateTimeField()
-    last_search = models.DateTimeField
-    last_week_searches = models.DateTimeField
+    
+class InfoData(models.Model):
+    num_searches = models.IntegerField()
+    first_search = models.CharField(max_length=200)
+    last_search = models.CharField(max_length=200)
+    search_text = models.CharField(max_length=200)
+    created_at = models.DateField(auto_now=True)
+    last_num_searches = models.IntegerField()
+    def __str__(self):
+        return self.search_text
