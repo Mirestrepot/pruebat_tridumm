@@ -2,17 +2,41 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>GFG</title>
+	<title>Búsqueda en Wikipedia</title>
 </head>
 <body>
-    <h1>Wikipedia Search</h1>
-    <form method="post">
-        {% csrf_token %}
-        <input type="text" name="search">
-        <button type="submit">Search</button>
-    </form>
-    {% if result %}
-        {{result}}
-    {% endif %}
+	<header>
+		<h1>Búsqueda en Wikipedia</h1>
+	</header>
+	
+	<main>
+		<form method="get">
+			<label for="search">Búsqueda:</label>
+			<input type="text" id="search" name="search">
+			<button type="submit">Buscar en Wikipedia</button>
+
+
+
+		
+		</form>
+		<h2>{{title}}</h2>
+		<p>{{ summary }}</p>
+		<p>sadas</p>
+	</main>
+     <body>
+		<form method="get">
+			<label for="search">Búsqueda:</label>
+			<input type="text" id="info_search" name="info_search">
+			<button type="submit">Obtener Informe</button>
+		</form>
+		<h1>Estadísticas de búsqueda</h1>
+		<p>Resultados para: <strong>{{ search_text }}</strong></p>
+		<p>Veces que se ha publicado: {{ num_searches }}</p>
+		<p>Primera publicación: {{ first_search.published_at|date:"Y-m-d H:i:s" }}</p>
+		<p>Última publicación: {{ last_search.published_at|date:"Y-m-d H:i:s" }}</p>
+		<p>Búsquedas de la última semana:</p>
+
+	 </body>
+	
 </body>
 </html>
