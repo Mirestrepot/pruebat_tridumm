@@ -1,0 +1,11 @@
+from django.contrib import admin
+from buscador_latino.models import Search
+# Register your models here.
+
+
+@admin.register(Search)
+class PostAdmin(admin.ModelAdmin):
+    fields = ["search_query"]
+    list_display = ("search_query","search_result_title","search_result_summary")
+    list_filter = ["search_query","search_result_title","search_result_summary"]
+    search_fields = ["search_query"]

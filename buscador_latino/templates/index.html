@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Búsqueda en Wikipedia</title>
+</head>
+<body>
+	<header>
+		<h1>Búsqueda en Wikipedia</h1>
+	</header>
+	
+	<main>
+		<form action="{% url 'wikipedia_search' %}" method="get">
+			<label for="search">Búsqueda:</label>
+			<input type="text" id="search" name="search">
+			<button type="submit">Buscar</button>
+		</form>
+		
+		{% if title %}
+		<h2>{{ title }}</h2>
+		<p>{{summary}}</p>
+		{% endif %}
+	</main>
+</body>
+</html>
