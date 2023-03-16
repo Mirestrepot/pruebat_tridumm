@@ -7,17 +7,13 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
 	<!-- <link rel="stylesheet" href="static/css/normalize.css" >
 	<link rel="stylesheet" href="static/css/styles.css" > -->
-    <title>Wikipedia Search</title>
+    <title>Inform Search</title>
 
 </head>
 <body>
 
-			<h1 class="h1title">Wikipedia Search</h1>
-			<form method="get" action="{% url 'wikipedia_search' %}">
-				<label class="label1" for="search">Search in Wikipedia:</label>
-				<input class="input1" type="text" name="search" id="search">
-				<button class="but1" type="submit" class="redondo">Search</button>
-			</form>
+			<h1 class="h1title">Inform Search</h1>
+
 			<form method="get" action="{% url 'search_results' %}">
 				<label class="label2" for="info_search">Generate a inform:</label>
 				<input class="input2" type="text" name="search_text" id="search_text">
@@ -27,14 +23,6 @@
 	<div class="text1">
 		<body >
 
-			{% if title and summary %}
-				<h2>Search Results for "{{ search_query }}"</h2>
-				<h3>Title:</h3>
-				<p>{{ title }}</p>
-				<h3>Summary:</h3>
-				<p>{{ summary }}</p>
-			{% endif %}
-	
 			{% if num_searches %}
 				<h2>Search Results for "{{ search_text }}"</h2>
 				<h3>Number of Searches:</h3>
@@ -48,6 +36,6 @@
 			{% endif %}
 		</body>
 	</div>
-	  
+	  <footer ref="index.html"></footer>
 </body>	
 </html>

@@ -1,42 +1,49 @@
-
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Búsqueda en Wikipedia</title>
+
+    <title>Wikipedia Search</title>
+	<link rel="stylesheet" href="static/css/normalize.css" >
+	<link rel="stylesheet" href="static/css/styles.css" >
 </head>
 <body>
-	<header>
-		<h1>Búsqueda en Wikipedia</h1>
-	</header>
-	
-	<main>
-		<form method="get">
-			<label for="search">Búsqueda:</label>
-			<input type="text" id="search" name="search">
-			<button type="submit">Buscar en Wikipedia</button>
+
+			<h1 class="h1title">Wikipedia Search</h1>
+			<form method="get" action="{% url 'wikipedia_search' %}">
+				<label class="label1" for="search">Search in Wikipedia:</label>
+				<input class="input1" type="text" name="search" id="search">
+				<button class="but1" type="submit" class="redondo">Search</button>
+			</form>
+			<form method="get" action="{% url 'search_results' %}">
+				<label class="label2" for="info_search">Generate a inform:</label>
+				<input class="input2" type="text" name="search_text" id="search_text">
+				<button class="but2"type="submit" class="redondo">Generate</button>
 
 
-
+	<div class="text1">
+		<body >
 		
-		</form>
-		<h2>{{title}}</h2>
-		<p>{{ summary }}</p>
-		<p>sadas</p>
-	</main>
-     <body>
-		<form method="get">
-			<label for="search">Búsqueda:</label>
-			<input type="text" id="info_search" name="info_search">
-			<button type="submit">Obtener Informe</button>
-		</form>
-		<h1>Estadísticas de búsqueda</h1>
-		<p>Resultados para: <strong>{{ search_text }}</strong></p>
-		<p>Veces que se ha publicado: {{ num_searches }}</p>
-		<p>Primera publicación: {{ first_search.published_at|date:"Y-m-d H:i:s" }}</p>
-		<p>Última publicación: {{ last_search.published_at|date:"Y-m-d H:i:s" }}</p>
-		<p>Búsquedas de la última semana:</p>
 		
-	 </body>
+			{% if title and summary %}
+				<h2>Search Results for "{{ search_query }}"</h2>
+				<h3>Title:</h3>
+				<p>{{ title }}</p>
+				<h3>Summary:</h3>
+				<p>{{ summary }}</p>
+			{% endif %}
 	
-</body>
-</html>
+			{% if num_searches %}
+				<h2>Search Results for "{{ search_text }}"</h2>
+				<h3>Number of Searches:</h3>
+				<p>{{ num_searches }}</p>
+				<h3>First Search:</h3>
+				<p>{{ first_search.search_query }} at {{ first_search.published_at }}</p>
+				<h3>Last Search:</h3>
+				<p>{{ last_search.search_query }} at {{ last_search.published_at }}</p>
+				<h3>Last Number of Searches:</h3>
+				<p>{{ last_num_searches.search_text }} had :  {{ last_num_searches.num_searches }} last time</p>
+			{% endif %}
+		</body>
+	</div>
+	  
+</body>	
