@@ -12,13 +12,8 @@ from datetime import date, datetime, timedelta, timezone
 from django.views.generic import TemplateView
 import wikipediaapi
 
-from pymongo import MongoClient
 
 # Connect to MongoDB Atlas cluster
-client = MongoClient('mongodb+srv://mirestrepot:Y34589ok.@twitterapi.tixzlnu.mongodb.net/?retryWrites=true&w=majority')
-db = client['prueba-tecnica']
-db_collection = db['buscador_latino_search']
-
 
 class SearchViewSet(viewsets.ModelViewSet):
     """
