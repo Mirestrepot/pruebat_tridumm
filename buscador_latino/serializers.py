@@ -7,3 +7,9 @@ class SearchSerializer(serializers.ModelSerializer):
         model = Search
         fields = ("id", "search_query","search_result_title","search_result_summary","published_at")
         read_only_fields = ("published_at",)
+        
+class InformSerializer(serializers.ModelSerializer):
+     class Meta:
+        model = Search
+        fields = ("id", "search_query","search_result_title","search_result_summary","published_at")
+        read_only_fields = ("published_at",)
