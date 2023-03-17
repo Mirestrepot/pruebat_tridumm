@@ -1,6 +1,8 @@
 from django.http import Http404, HttpResponse
 from django.shortcuts import render
 from rest_framework import viewsets, permissions
+
+from buscador_latino.utils import last_num_search, save_info_data
 from .serializers import SearchSerializer
 from .models import InfoData, Search
 from rest_framework.views import APIView
@@ -81,7 +83,7 @@ class SearchResultsView(TemplateView):
         search_text (str): The search query to retrieve search results for.
         last_num_searches (int): The number of search results for the most recent search.
     """
-    template_name = 'inform.html'
+    template_name = 'index.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -90,20 +92,8 @@ class SearchResultsView(TemplateView):
             # Retrieve search results for the given search query
             searches = Search.objects.filter(search_query=search_text)
             #info_searches = InfoData.objects.filter(search_text=search_text)
-            def last_num_search(search_text):
-                try:
-                    info_searches = InfoData.objects.filter(search_text=search_text)
-                    cont = info_searches.count()
-                    
-                    if cont > 1  :
-                        last_num_searches = info_searches.order_by('-created_at').first()
-                        return int(last_num_searches.num_searches)
-                    else:
-                        last_num_searches = 1
-                        return last_num_searches
-                except:
-                    last_num_searches = 0
-                    return last_num_searches
+            last_num_search(search_text)
+
             last_num_searches = last_num_search(search_text)
             
                 
@@ -122,14 +112,9 @@ class SearchResultsView(TemplateView):
             last_search=last_search.published_at 
     
             
-            info_schema = InfoData(
-                num_searches=num_searches,
-                first_search=first_search,
-                last_search=last_search,
-                search_text=search_text,
-                created_at=datetime.now(),
-                )
-            info_schema.save()
+            new_data=save_info_data(search_text)
+            if new_data != None:
+                new_data.save()
 
             return context
 
