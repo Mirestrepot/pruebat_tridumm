@@ -2,6 +2,8 @@ from django.contrib import admin
 from buscador_latino.models import Search
 # Register your models here.
 
+# admin.site.register(Post)
+
 
 @admin.register(Search)
 class PostAdmin(admin.ModelAdmin):

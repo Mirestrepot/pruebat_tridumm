@@ -1,7 +1,24 @@
 from django.db import models
 
-# Create your models here.
 
+
+# def user_directory_path(instance, filename):
+#     return 'home/{0}/{1}'.format(instance.title, filename)
+
+# class Post(models.Model):
+#     class PostObjects(models.Manager):
+#         def get_queryset(self):
+#             return super().get_queryset()
+    
+#     title = models.CharField(max_length=250)
+#     image = models.ImageField(upload_to=user_directory_path, blank=True, null=True)
+#     excerpt = models.TextField(null=True)
+#     content = models.TextField()
+#     slug = models.SlugField(max_length=250, unique_for_date='published', null=False, unique=True)
+#     published = models.DateTimeField(default=timezone.now)
+#     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='post_user')
+#     objects = models.Manager()
+#     postobjects = PostObjects()
 
 class Search(models.Model):
     search_query = models.CharField(max_length=200)
