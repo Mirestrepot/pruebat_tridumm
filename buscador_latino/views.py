@@ -3,7 +3,7 @@ from django.shortcuts import render
 from rest_framework import viewsets, permissions
 
 from buscador_latino.utils import last_num_search, save_info_data
-from .serializers import SearchSerializer
+from .serializers import InformSerializer, SearchSerializer
 from .models import InfoData, Search
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -112,4 +112,11 @@ class SearchResultsView(TemplateView):
                 new_data.save()
 
             return context
+class ListInform(APIView):
+    def get(self,  request, *args, **kwargs):
+        informs = InfoData.objects.all()[0:10]
+        serializer = InformSerializer(informs, many=True)
+        
+        return Response(serializer.data)
+    
 
