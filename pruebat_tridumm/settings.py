@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 import os
 from pathlib import Path
-
+from corsheaders.defaults import default_headers
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -40,7 +40,8 @@ DJANGO_APPS = (
 
 LOCAL_APPS = (
     'buscador_latino',
-    'rest_framework',)
+    'rest_framework',
+    'corsheaders')
 
 INSTALLED_APPS =  (DJANGO_APPS + LOCAL_APPS)
 
@@ -52,6 +53,20 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
+]
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+
+    'http://localhost:8080',
+    'http://127.0.0.1:8080',
+
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+)
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    'contenttype',
 ]
 
 
